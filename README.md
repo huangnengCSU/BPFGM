@@ -53,8 +53,10 @@ Required arguments:
 ./block -b ../test/HG002.chr22.2k.bam -s HG002.chr22.2k.trivial_features.txt -c HG002.chr22.2k.complex_features.txt
 ```
 
-## Data Formats
-BlockPolish feature generation module requires that the input BAM is indexed.    
-    
-    
+## Data Formats    
+
+BlockPolish feature generation module requires that the input BAM is indexed.
+
+---
+## License
 Copyright (C) 2020 by Huangneng (huangn94@foxmail.com)
