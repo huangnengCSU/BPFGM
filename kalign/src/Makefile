@@ -1,0 +1,97 @@
+CC = gcc -mmmx -msse -msse2 -msse3 -mssse3 -msse4.1 -msse4.2 -maes -mavx -mfma -mavx2 -D_FORTIFY_SOURCE=2 -ffunction-sections -fdata-sections -O3 -std=gnu11 -Wl,--gc-sections -Wl,--as-needed -Wno-undef
+# CC = gcc -mmmx -msse -msse2 -msse3 -mssse3 -msse4.1 -msse4.2 -maes -mavx -mfma -mavx2 -fopenmp -D_FORTIFY_SOURCE=2 -ffunction-sections -fdata-sections -O3 -std=gnu11 -Wl,--gc-sections -Wl,--as-needed -Wno-undef
+AR = ar
+ARFLAGS = cq
+RM = -rm -rf
+TEST = testlib
+OBJS := parameters.o alignment_parameters.o bisectingKmeans.o weave_alignment.o \
+esl_stopwatch.o idata.o alphabet.o aln_run.o tlrng.o rwalign.o aln_task.o pick_anchor.o sequence_distance.o euclidean_dist.o \
+aln_mem.o aln_setup.o aln_controller.o tlmisc.o aln_seqseq.o aln_seqprofile.o aln_profileprofile.o tldevel.o bpm.o
+LIB = libkalign.a
+LIB_OBJ = libkalign.o
+
+# all:$(TEST)
+# $(TEST):test_lib.c $(LIB)
+# 	$(CC) test_lib.c -lkalign -o $(TEST) 
+
+all:$(LIB)
+
+$(LIB):$(LIB_OBJ) $(OBJS)
+	# $(AR) $(ARFLAGS) $@ $^
+	$(AR) $(ARFLAGS) $@ $(LIB_OBJ) $(OBJS)
+
+$(LIB_OBJ):libkalign.c $(OBJS)
+	$(CC) -c libkalign.c
+
+tldevel.o:tldevel.c
+	$(CC) -DHAVE_CONFIG_H -c tldevel.c
+
+parameters.o:parameters.c
+	$(CC) -c parameters.c
+
+alignment_parameters.o:alignment_parameters.c
+	$(CC) -c alignment_parameters.c
+
+bisectingKmeans.o:bisectingKmeans.c pick_anchor.c sequence_distance.c euclidean_dist.c
+	$(CC) -c bisectingKmeans.c
+
+pick_anchor.o:pick_anchor.c
+	$(CC) -c pick_anchor.c
+
+sequence_distance.o:sequence_distance.c bpm.c
+	gcc -DHAVE_CONFIG_H -I.    -mmmx -msse -msse2 -msse3 -mssse3 -msse4.1 -msse4.2 -maes -mavx -mfma -mavx2   -D_FORTIFY_SOURCE=2 -ffunction-sections -fdata-sections -O3 -std=gnu11   -MT sequence_distance.o -MD -MP -MF .deps/sequence_distance.Tpo -c sequence_distance.c
+
+bpm.o:bpm.c
+	gcc -DHAVE_CONFIG_H -I.    -mmmx -msse -msse2 -msse3 -mssse3 -msse4.1 -msse4.2 -maes -mavx -mfma -mavx2   -D_FORTIFY_SOURCE=2 -ffunction-sections -fdata-sections -O3 -std=gnu11   -MT bpm.o -MD -MP -MF .deps/bpm.Tpo -c -o bpm.o bpm.c
+
+euclidean_dist.o:euclidean_dist.c
+	$(CC) -c euclidean_dist.c
+
+weave_alignment.o:weave_alignment.c
+	$(CC) -c weave_alignment.c
+
+esl_stopwatch.o:esl_stopwatch.c
+	$(CC) -c esl_stopwatch.c
+
+idata.o:idata.c
+	$(CC) -c idata.c
+
+alphabet.o:alphabet.c 
+	$(CC) -c alphabet.c
+
+aln_run.o:aln_run.c aln_mem.c aln_setup.c aln_controller.c
+	$(CC) -c aln_run.c
+
+aln_mem.o:aln_mem.c
+	$(CC) -c aln_mem.c
+
+aln_setup.o:aln_setup.c
+	$(CC) -c aln_setup.c
+
+aln_controller.o:aln_controller.c aln_seqseq.c aln_seqprofile.c aln_profileprofile.c
+	$(CC) -c aln_controller.c
+
+aln_profileprofile.o:aln_profileprofile.c
+	$(CC) -c aln_profileprofile.c
+
+aln_seqprofile.o:aln_seqprofile.c
+	$(CC) -c aln_seqprofile.c
+
+aln_seqseq.o:aln_seqseq.c
+	$(CC) -c aln_seqseq.c
+
+tlrng.o:tlrng.c
+	$(CC) -c -lm tlrng.c
+
+rwalign.o:rwalign.c tlmisc.c
+	$(CC) -c rwalign.c
+
+tlmisc.o:tlmisc.c
+	$(CC) -c tlmisc.c
+
+aln_task.o:aln_task.c
+	$(CC) -c aln_task.c
+
+.PHONY:
+clean:
+	$(RM) $(OBJS) $(LIB)

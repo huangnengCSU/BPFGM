@@ -1,0 +1,11 @@
+CC = g++ -mmmx -msse -msse2 -msse3 -mssse3 -msse4.1 -msse4.2 -maes -mavx -mfma -mavx2 -fopenmp -D_FORTIFY_SOURCE=2 -ffunction-sections -fdata-sections -O3 -Wl,--gc-sections -Wl,--as-needed -Wno-undef
+INCLUDE_PATH = -I.
+TEST_TARGET = ./testlib
+TEST_SRC = ./test_lib.cpp
+LDFLAGS:=./libkalign.a
+
+all:
+	$(CC) -g $(TEST_SRC) -o $(TEST_TARGET) $(INCLUDE_PATH) $(LDFLAGS) -lm
+
+clean:
+	rm -rf *.o $(TEST_TARGET)
