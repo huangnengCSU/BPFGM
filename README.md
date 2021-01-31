@@ -3,8 +3,7 @@ BlockPolish is an accurate polishing of long-read assembly via block divide-and-
 
 BlockPolish feature generation module is used to divide the contigs into trivial blocks and complex blocks from reads-to-assembly alignment ```BAM``` file. Then, this module generates a feature matrix for each block by counting the base distribution at each position. The features of trivial blocks and complex blocks are written to two output file named ```TRIVIAL_BLOCK_FEATURES``` and  ```COMPLEX_BLOCK_FEATURES```.
 
-## Installation
----
+## Installation ##
 ### Dependencies
 if compiling on Ubuntu, this will install all required packages:
 ```
@@ -37,7 +36,7 @@ make
 ./block
 ```
 
-## Running BlockPolish feature generation module
+## Running BlockPolish feature generation module ##
 ```
 usage: block -b <BAM_FILE> -s <TRIVIAL_BLOCK_FEATURES> -c <COMPLEX_BLOCK_FEATURES>
 Generate the features for BlockPolish polishing using reads-to-assembly alignments in BAM_FILE.
@@ -53,10 +52,8 @@ Required arguments:
 ./block -b ../test/HG002.chr22.2k.bam -s HG002.chr22.2k.trivial_features.txt -c HG002.chr22.2k.complex_features.txt
 ```
 
-## Data Formats    
-
+## Data Formats ##
 BlockPolish feature generation module requires that the input BAM is indexed.
 
----
-## License
+## License ##
 Copyright (C) 2020 by Huangneng (huangn94@foxmail.com)
