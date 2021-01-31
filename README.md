@@ -55,5 +55,5 @@ Required arguments:
 
 ## Data Formats
 BlockPolish feature generation module requires that the input BAM is indexed.
-
+---
 Copyright (C) 2020 by Huangneng (huangn94@foxmail.com)
