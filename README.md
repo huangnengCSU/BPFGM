@@ -5,10 +5,9 @@ BlockPolish feature generation module is used to divide the contigs into trivial
 
 ## Installation ##
 Requires:
-```
 - [cmake>=3.10](https://cmake.org/download/)
 - [gcc>=7.3](http://gcc.gnu.org/releases.html)
-```
+
 ### Dependencies
 if compiling on Ubuntu, this will install all required packages:
 ```
