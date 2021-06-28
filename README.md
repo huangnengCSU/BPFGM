@@ -4,6 +4,11 @@ BlockPolish is an accurate polishing of long-read assembly via block divide-and-
 BlockPolish feature generation module is used to divide the contigs into trivial blocks and complex blocks from reads-to-assembly alignment ```BAM``` file. Then, this module generates a feature matrix for each block by counting the base distribution at each position. The features of trivial blocks and complex blocks are written to two output file named ```TRIVIAL_BLOCK_FEATURES``` and  ```COMPLEX_BLOCK_FEATURES```.
 
 ## Installation ##
+Requires:
+```
+[cmake >= 3.10](https://cmake.org/download/)
+[gcc >= 7.3](http://gcc.gnu.org/releases.html)
+```
 ### Dependencies
 if compiling on Ubuntu, this will install all required packages:
 ```
