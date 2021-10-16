@@ -169,16 +169,18 @@ bool SamHeader::IsValid(bool verbose) const
     SamHeaderValidator validator(*this);
 
     // if SAM header is valid, return success
-    if (validator.Validate()) return true;
+    if (validator.Validate()) {
+        return true;
 
-    // otherwiser
-    else {
+        // otherwiser
+    } else {
 
         // print messages to stderr
-        if (verbose) validator.PrintMessages(std::cerr);
+        if (verbose) {
+            validator.PrintMessages(std::cerr);
 
-        // or catch in local error string
-        else {
+            // or catch in local error string
+        } else {
             std::stringstream errorStream;
             validator.PrintMessages(errorStream);
             m_errorString = errorStream.str();
@@ -201,7 +203,7 @@ void SamHeader::SetHeaderText(const std::string& headerText)
     try {
         SamFormatParser parser(*this);
         parser.Parse(headerText);
-    } catch (BamException& e) {
+    } catch (const BamException& e) {
 
         // clear anything parsed so far
         // no telling what's valid and what's partially parsed

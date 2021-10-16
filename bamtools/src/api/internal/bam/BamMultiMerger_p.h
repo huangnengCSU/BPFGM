@@ -11,6 +11,8 @@
 #ifndef BAMMULTIMERGER_P_H
 #define BAMMULTIMERGER_P_H
 
+#include "api/api_global.h"
+
 //  -------------
 //  W A R N I N G
 //  -------------
@@ -32,7 +34,7 @@
 namespace BamTools {
 namespace Internal {
 
-struct MergeItem
+struct API_NO_EXPORT MergeItem
 {
 
     // data members
@@ -47,7 +49,7 @@ struct MergeItem
 };
 
 template <typename Compare>
-struct MergeItemSorter : public std::binary_function<MergeItem, MergeItem, bool>
+struct API_NO_EXPORT MergeItemSorter : public std::binary_function<MergeItem, MergeItem, bool>
 {
 
 public:
@@ -67,7 +69,7 @@ private:
 };
 
 // pure ABC so we can just work polymorphically with any specific merger implementation
-class IMultiMerger
+class API_NO_EXPORT IMultiMerger
 {
 
 public:
@@ -86,7 +88,7 @@ public:
 
 // general merger
 template <typename Compare>
-class MultiMerger : public IMultiMerger
+class API_NO_EXPORT MultiMerger : public IMultiMerger
 {
 
 public:
@@ -123,7 +125,9 @@ void MultiMerger<Compare>::Add(MergeItem item)
     // N.B. - any future custom Compare types must define this method
     //        see algorithms/Sort.h
 
-    if (CompareType::UsesCharData()) item.Alignment->BuildCharData();
+    if (CompareType::UsesCharData()) {
+        item.Alignment->BuildCharData();
+    }
     m_data.insert(item);
 }
 
@@ -149,7 +153,9 @@ template <typename Compare>
 void MultiMerger<Compare>::Remove(BamReader* reader)
 {
 
-    if (reader == 0) return;
+    if (reader == 0) {
+        return;
+    }
     const std::string& filenameToRemove = reader->GetFilename();
 
     // iterate over readers in cache
@@ -158,7 +164,9 @@ void MultiMerger<Compare>::Remove(BamReader* reader)
     for (; dataIter != dataEnd; ++dataIter) {
         const MergeItem& item = (*dataIter);
         const BamReader* itemReader = item.Reader;
-        if (itemReader == 0) continue;
+        if (itemReader == 0) {
+            continue;
+        }
 
         // remove iterator on match
         if (itemReader->GetFilename() == filenameToRemove) {
@@ -184,7 +192,7 @@ MergeItem MultiMerger<Compare>::TakeFirst()
 
 // unsorted "merger"
 template <>
-class MultiMerger<Algorithms::Sort::Unsorted> : public IMultiMerger
+class API_NO_EXPORT MultiMerger<Algorithms::Sort::Unsorted> : public IMultiMerger
 {
 
 public:
@@ -232,7 +240,9 @@ inline bool MultiMerger<Algorithms::Sort::Unsorted>::IsEmpty() const
 inline void MultiMerger<Algorithms::Sort::Unsorted>::Remove(BamReader* reader)
 {
 
-    if (reader == 0) return;
+    if (reader == 0) {
+        return;
+    }
     const std::string filenameToRemove = reader->GetFilename();
 
     // iterate over readers in cache
@@ -241,7 +251,9 @@ inline void MultiMerger<Algorithms::Sort::Unsorted>::Remove(BamReader* reader)
     for (; dataIter != dataEnd; ++dataIter) {
         const MergeItem& item = (*dataIter);
         const BamReader* itemReader = item.Reader;
-        if (itemReader == 0) continue;
+        if (itemReader == 0) {
+            continue;
+        }
 
         // remove iterator on match
         if (itemReader->GetFilename() == filenameToRemove) {

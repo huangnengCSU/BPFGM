@@ -10,6 +10,8 @@
 #ifndef SAM_HEADERVERSION_P_H
 #define SAM_HEADERVERSION_P_H
 
+#include "api/api_global.h"
+
 //  -------------
 //  W A R N I N G
 //  -------------
@@ -28,7 +30,7 @@
 namespace BamTools {
 namespace Internal {
 
-class SamHeaderVersion
+class API_NO_EXPORT SamHeaderVersion
 {
 
     // ctors & dtor
@@ -88,7 +90,9 @@ inline void SamHeaderVersion::SetVersion(const std::string& version)
             if (!majorVersion.empty()) {
                 const std::size_t nonDigitFound =
                     majorVersion.find_first_not_of(Constants::SAM_DIGITS);
-                if (nonDigitFound == std::string::npos) versionStream >> m_majorVersion;
+                if (nonDigitFound == std::string::npos) {
+                    versionStream >> m_majorVersion;
+                }
             }
 
             // store minor version if non-empty and contains only digits
@@ -97,7 +101,9 @@ inline void SamHeaderVersion::SetVersion(const std::string& version)
             if (!minorVersion.empty()) {
                 const std::size_t nonDigitFound =
                     minorVersion.find_first_not_of(Constants::SAM_DIGITS);
-                if (nonDigitFound == std::string::npos) versionStream >> m_minorVersion;
+                if (nonDigitFound == std::string::npos) {
+                    versionStream >> m_minorVersion;
+                }
             }
         }
     }
@@ -123,10 +129,11 @@ inline bool operator==(const SamHeaderVersion& lhs, const SamHeaderVersion& rhs)
 
 inline bool operator<(const SamHeaderVersion& lhs, const SamHeaderVersion& rhs)
 {
-    if (lhs.MajorVersion() == rhs.MajorVersion())
+    if (lhs.MajorVersion() == rhs.MajorVersion()) {
         return lhs.MinorVersion() < rhs.MinorVersion();
-    else
+    } else {
         return lhs.MajorVersion() < rhs.MajorVersion();
+    }
 }
 
 inline bool operator>(const SamHeaderVersion& lhs, const SamHeaderVersion& rhs)
