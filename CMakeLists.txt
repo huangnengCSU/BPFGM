@@ -5,9 +5,9 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(CMAKE_CXX_FLAGS "-mmmx -msse -msse2 -msse3 -mssse3 -msse4.1 -msse4.2 -maes -mavx -mfma -mavx2 -D_FORTIFY_SOURCE=2 -ffunction-sections -fdata-sections -O3 -Wl,--gc-sections -Wl,--as-needed -Wno-undef")
 
-include_directories(bamtools/src/ src kalign/src)
+include_directories(bamtools/src bamtools/build/src src kalign/src)
 
-link_directories(./)
+link_directories(./ bamtools/build/src kalign/src)
 
 add_executable(block main.cpp src/consensus.cpp)
 
